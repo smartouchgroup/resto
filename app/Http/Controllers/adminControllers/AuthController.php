@@ -9,7 +9,6 @@ use App\Models\Group;
 use App\Models\Organization;
 use App\Models\Restaurant;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
