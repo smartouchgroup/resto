@@ -4,11 +4,7 @@
         <ul class="nav navbar-nav">
             <li class="nav-item"><a class="navbar-brand"
                     href="{{ route('restaurant.home') }}">
-                    <span class="brand-logo">
-                        <img src="{{ asset('storage/avatars/' . Auth::user()->profile) }}"
-                        class="me-75" height="40" width="40"
-                        alt="{{ Auth::user()->firstname}}">
-                    </span>
+
                     <h2 class="brand-text mb-0">{{ Auth::user()->firstname }}</h2>
                 </a>
             </li>

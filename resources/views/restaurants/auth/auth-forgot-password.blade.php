@@ -1,4 +1,4 @@
-@extends('organization.layouts.log')
+@extends('restaurants.layouts.log')
 @section('title')
     Mot de passe oublié
 @endsection
@@ -61,7 +61,7 @@
                                 <p class="card-text text-center mb-2">Entrez votre email pour réinitialiser votre mot de
                                     passe</p>
 
-                                <form class="auth-forgot-password-form mt-2" action="{{ route('restaurant.sendLink') }}"
+                                <form class="auth-forgot-password-form mt-2" action="{{ route('forget.password') }}"
                                     method="POST">
                                     @csrf
                                     <div class="mb-1">

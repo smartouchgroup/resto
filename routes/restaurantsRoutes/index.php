@@ -30,3 +30,7 @@ Route::prefix('restaurant')->group(function () {
     Route::resource('menu', menuController::class);
     Route::resource('schedules', SchedulesController::class);
 });
+Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('forget.password');
+Route::post('forget-password', [AuthController::class, 'submitForgetPasswordForm'])->name('forget.password');
+Route::get('reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset.password');

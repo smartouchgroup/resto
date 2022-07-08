@@ -31,10 +31,6 @@ Route::prefix('org')->group(function () {
     });
     Route::post('existRestaurant',[RestaurantController::class,'existRestaurant']);
     route::resource('background',backgroundController::class);
-    // Route::get('password_forgot',[AuthController::class,'password_forgot'])->name('password_forgot');
-    // Route::post('sendLink',[AuthController::class,'sendLink']);
-    // Route::get('reset_password/{token}', [AuthController::class, 'reset_password'])->name('reset_password');
-    // Route::post('submitResetPasswordForm', [AuthController::class, 'submitResetPasswordForm']);
 
 
 Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('forget.password');
