@@ -69,7 +69,7 @@
                                     <div class="mb-1">
                                         <div class="d-flex justify-content-between">
                                             <label class="form-label" for="login-password">Mot de passe</label>
-                                            <a href="{{ route('restaurant.pwforgot') }}">
+                                            <a href="{{ route('forget.password') }}">
                                                 <small>Mot de passe oublié?</small>
                                             </a>
                                         </div>

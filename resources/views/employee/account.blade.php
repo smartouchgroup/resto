@@ -13,8 +13,8 @@
                             class="w-100 bg-white rounded-top d-flex justify-content-between align-items-center account_user_container">
                             <div class="account_user rounded-circle">
                                 @if (Auth::user()->profile != null)
-                                <img src="{{ asset('storage/user_profile/' . Auth::user()->profile) }}"
-                                    alt="{{ Auth::user()->firstname }}">
+                                <img src="{{ asset('storage/avatars/' . Auth::user()->profile) }}"
+                                    alt="{{ Auth::user()->firstname }}" class="rounded-circle">
                                 @else
                               <img src="{{ asset('assets/employee/employee_avatar.png') }}" alt="user">
                             @endif
@@ -31,7 +31,7 @@
                                 <h5 class="family_popone">{{ Auth::user()->firstname }}</h5>
                             </div>
                             <div class="p-1 d-flex justify-content-between align-items-center">
-                                <h5>Prénom :</h5>
+                                <h5>Prénom (s) :</h5>
                                 <h5 class="family_popone">{{ Auth::user()->lastname }}</h5>
                             </div>
                             <div class="p-1 d-flex justify-content-between align-items-center">
@@ -39,7 +39,7 @@
                                 <h5 class="family_popone">{{ Auth::user()->phone }}</h5>
                             </div>
                             <div class="p-1 d-flex justify-content-between align-items-center">
-                                <h5>Addresse email :</h5>
+                                <h5>Adresse email :</h5>
                                 <h5 class="family_popone">{{ Auth::user()->email }}</h5>
                             </div>
                             <div class="p-1 d-flex justify-content-between align-items-center">

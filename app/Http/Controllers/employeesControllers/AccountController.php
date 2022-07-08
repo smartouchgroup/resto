@@ -75,8 +75,9 @@ class AccountController extends Controller
         $count = Ticket::where('employeeId', auth()->user()->custom->id)->pluck('ticketNumber')->toArray();
         //the using of toArray convert the eloquent collection to a simple PHP array
         $getNumberTickets = array_sum($count);
+        $numberTicketsAuthorized = Auth::user()->custom->organization->ticketNumber;
 
-        return view('employee.tickets', compact('numberTickets', 'getNumberTickets', 'count'));
+        return view('employee.tickets', compact('numberTickets', 'getNumberTickets', 'count','numberTicketsAuthorized'));
     }
 
     public function buy_ticket(Request $request)
@@ -85,7 +86,7 @@ class AccountController extends Controller
             'employeeId' => 'required',
             'ticketNumber' => 'required'
         ]);
-        // $input = $request->all();
+
         $count = Ticket::where('employeeId', auth()->user()->custom->id)->pluck('ticketNumber')->toArray();
         $getNumberTickets = array_sum($count);
         $numberTicketsAuthorized = Auth::user()->custom->organization->ticketNumber;
@@ -124,28 +125,6 @@ class AccountController extends Controller
     }
 
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -160,37 +139,4 @@ class AccountController extends Controller
         return view('employee.show', compact('restaurant', 'obj'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

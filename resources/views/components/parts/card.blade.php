@@ -16,6 +16,10 @@
         <div class="dish_info">
             <p class="dish_name">{{ $dish->name }}</p>
             <p class="small category">
+                <span>Restaurant: </span>
+                <span class="text-italic">{{ $dish->restaurant->user->firstname }}</span>
+            </p>
+            <p class="small category">
                 <span>Catégorie: </span>
                 <span class="text-italic">{{ $dish->category->name }}</span>
             </p>

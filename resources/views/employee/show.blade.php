@@ -30,12 +30,12 @@
                                 </div>
                                 <div class="p-1 mt-1 ">
                                     <h5>
-                                       <span Class='dishes_title'> Slogan :</span> {{$restaurant->slogan}}
+                                        <span Class='dishes_title'> Slogan :</span> {{ $restaurant->slogan }}
                                     </h5>
                                 </div>
                                 <div class="p-1 ">
                                     <h6>
-                                       <span class='dishes_title'>Situé:</span> {{$restaurant->localization}}
+                                        <span class='dishes_title'>Situé:</span> {{ $restaurant->localization }}
                                     </h6>
                                 </div>
                             </div>
@@ -53,27 +53,35 @@
                                 <blockquote class="blockquote mb-0">
                                     <div>
                                         <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    @foreach ($obj as $key => $data1)
-                                                        @foreach ($data1 as $keys => $data1s)
-                                                            <th scope="col">{{ $key }}</th>
-                                                        @endforeach
+                                           @if (!$obj)
+                                           <thead>
+                                            <tr>
+                                                @foreach ($obj as $key => $data1)
+                                                    @foreach ($data1 as $keys => $data1s)
+                                                        <th scope="col">{{ $key }}</th>
                                                     @endforeach
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    @foreach ($obj as $key => $data1)
-                                                        @foreach ($data1 as $keys => $data1s)
-                                                            <td>{{ $keys }} : {{ $data1s }}</td>
-                                                        @endforeach
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($obj as $key => $data1)
+                                                    @foreach ($data1 as $keys => $data1s)
+                                                        <td>{{ $keys }} : {{ $data1s }}</td>
                                                     @endforeach
-                                                </tr>
-                                                <tr>
-                                                </tr>
-                                                <tr>
-                                            </tbody>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                            <tr>
+                                        </tbody>
+                                           @else
+                                                <div class="alert alert-primary">
+                                                    <h5 class="text-center">
+                                                        Aucune information !
+                                                    </h5>
+                                                </div>
+                                           @endif
                                         </table>
                                     </div>
                                 </blockquote>

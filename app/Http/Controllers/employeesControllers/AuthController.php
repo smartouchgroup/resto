@@ -38,10 +38,9 @@ class AuthController extends Controller
                 'errors' => 'Vos identifiants sont incorrects',
             ]);
         }elseif(!Auth::user()->custom->first_login == 0){
-            return redirect()->intended('identy_code')->with('errors','Veuillez entrer dabord votre code identifiant');
+            return redirect()->intended('identy_code')->with('errors','Veuillez entrer d\'abord votre code identifiant');
         }elseif(Auth::attempt($credentials) && Auth::user()->roleId === 5 && Auth::user()->custom->first_login == 0){
                 $request->session()->regenerate();
-
         return redirect()->intended('/');
         }
     }

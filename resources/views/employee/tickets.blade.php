@@ -6,6 +6,7 @@
         <div class="container mt-3 mx-auto">
             <h2 class="dishes_title mb-2">Faire un dépot </h2>
             <div class="row mt-2">
+                @if ($numberTicketsAuthorized != 0)
                 <div class="col-12 col-xl-6">
                     <div class="part mt-2">
                         <div class="py-2 border-bottom d-flex align-items-center">
@@ -74,6 +75,16 @@
                             </form>
                         </div>
                     </div>
+                @else
+                    <div class="alert alert-primary">
+                        <div class="text-center">
+                            <i data-feather="alert-circle"></i>
+                            <span>
+                             La configuration de ticket n'a pas encore été effectuée par  <h6>{{ Auth::user()->custom->organization->user->firstname }}</h6>
+                            </span>
+                        </div>
+                    </div>
+                @endif
                 </div>
                 <div class="col-12 col-xl-6">
                     <div class="part mt-2">
