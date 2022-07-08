@@ -10,6 +10,7 @@ use App\Models\Restaurant;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Providers\RestaurantAdded;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -42,7 +43,8 @@ class RestaurantController extends Controller
             'email',
             'phone',
         ]);
-
+        $password = substr(str_shuffle(Hash::make(Str::random(10))) , 0, 15);
+        $input['password'] = Hash::make($password);
         //Additionnal value for User creating
 
         $additionalInput = [
@@ -76,12 +78,13 @@ class RestaurantController extends Controller
 
         //Add new row in Restaurants's table
 
-        Restaurant::create([
+        $RestaurantAdded = Restaurant::create([
             'userId' => $restaurant->id,
             'slogan' => $request->slogan,
             'description' => $request->description,
             'localization' => $request->localization,
         ]);
+        event(new RestaurantAdded($RestaurantAdded, $password));
 
         return redirect()->intended('admin/restaurants')->with('success', 'Restaurant ajouté avec succès!');
     }
@@ -182,7 +185,10 @@ class RestaurantController extends Controller
 
     public function destroy($id)
     {
-        $restaurant = Restaurant::destroy($id);
+        $restaurant = Restaurant::find($id);
+        Restaurant::destroy($restaurant->id);
+        User::destroy($restaurant->user->id);
+        return back()->with('success', 'La restaurant a été retiré avec succes');
     }
 
     public function updateCategory(Request $request) {

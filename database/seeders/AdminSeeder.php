@@ -24,7 +24,7 @@ class AdminSeeder extends Seeder
             'phone_verified_at' => now(),
             'email' => 'smt@gmail.com',
             'email_verified_at' => now(),
-            'profile' => 'avatar.png',
+            'profile' => 'avatar_admin.png',
             'password' => Hash::make('SMT@5502!')
         ]);
     }

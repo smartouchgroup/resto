@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Nette\Utils\Random;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use NunoMaduro\Collision\Adapters\Phpunit\Style;
 
 class EmployeeController extends Controller
 {
@@ -24,19 +27,24 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $organization = Organization::whereRelation('User', 'uuid', '=', auth()->user()->uuid)->first();
         $employees = $organization->employees;
         $groups = $organization->groups;
+        $booleanArray = array_map(function ($employee) {
+            return $employee->isChief;
+        }, 
+        Collection::unwrap($employees));
+        $employees = Employee::paginate(10)->fragment('employees');
+        $chiefExist = in_array(1, $booleanArray);
         return view('organization.employee.list', [
-
             'organization' => $organization,
             'employees' => $employees,
+            'chiefExist' => $chiefExist,
             'groups' => $groups
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -56,76 +64,59 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $request->validated();
-
         $inputs = $request->all([
             'firstname',
             'lastname',
             'email',
             'phone',
         ]);
-
         $password = substr(str_shuffle(Hash::make(Str::random(10))) , 0, 15);
 
         $inputs['password'] = Hash::make($password);
-
         $ajoutInput = [
             'roleId' => 5,
             'uuid' => Str::uuid(),
             'status' => 1,
         ];
-
         foreach ($ajoutInput as $key => $value) {
             $inputs[$key] = $value;
         }
-
         if ($request->file('profile')) {
             $picture = $request->file('profile')->store('public/avatars');
             $extension = explode('.', $picture)[1];
-
-            if (!in_array($extension, ['jpg', 'jpeg', 'png', 'svg'])) return redirect()->back()->withErrors(['error' => "Le fichier transféré n'est pas une image!"]);
+            if (!in_array($extension, ['jpg', 'jpeg', 'png', 'svg'])) return redirect()->back()->withErrors(['error' => "Le fichier transféré doit etre une image!"]);
             $name = explode('/', $picture)[2];
-
             $inputs['profile'] = $name;
-        } else $inputs['profile'] = 'avatar.png';
-
-
+        };
         $employee = User::create($inputs);
         $organization = Organization::whereRelation('User', 'uuid', '=', $request->organizationId)->first();
-
         $addedEmployee = Employee::create([
             'userId' => $employee->id,
             'organizationId' => $organization->id,
             'groupId' => $request->group,
-            'identityCode' => (int) Random::generate(6, '1-9')
+            'identityCode' => (int) Random::generate(6, '1-9'),
+            'isChief' => $request->isChief ?? false
         ]);
         event(new EmployeeAdded($addedEmployee, $password));
         Account::create([
             'employeeId' => $addedEmployee->id,
             'amount' => 0
         ]);
-
         Ticket::create([
             'employeeId' => $addedEmployee->id,
             'ticketNumber' => 0
         ]);
-
-
         return redirect()->back()->with('success', 'Employé ajouté avec succes!');
     }
-
-
-    public function changeStatus($id)
+    public function changeStatus(Request $request)
     {
-        // $request->validate([
-        //     'uuid' => 'required|exists:users,uuid'
-        // ]);
-
-        $employee = User::where('id', $id)->first();
-        dd($employee);
-        $employee->update([
-            'status' => 0
+        $request->validate([
+            'uuid' => 'required|exists:users,uuid'
         ]);
-
+        $employee = User::where('uuid', $request->uuid)->first();
+        $employee->update([
+            'status' => !$employee->status
+        ]);
     }
 
     /**
@@ -149,10 +140,17 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::whereRelation('User', 'uuid', '=', $id)->first();
+        $employees = Employee::all();
         $groups = $employee->organization->groups;
+        $booleanArray = array_map(function ($employee) {
+            return $employee->isChief;
+        }, Collection::unwrap($employees));
+        $chiefExist = in_array(1, $booleanArray);
         return view('organization.employee.edit', [
             'employee' => $employee,
-            'groups' => $groups
+            
+            'groups' => $groups,
+            'chiefExist' => $chiefExist
         ]);
     }
 
@@ -176,7 +174,7 @@ class EmployeeController extends Controller
             ],
             [
                 'required' => 'Ce champs est obligatoire.',
-                'email' => 'Ce champs doit comporter une adresse email.',
+                'email' => 'Ce champs doit comporter une addresse email.',
                 'integer' => "Seuls les chiffres sont autorisés."
             ]
         );if ($validator->failed()) {
@@ -214,12 +212,12 @@ class EmployeeController extends Controller
 
         $employee->update([
             'groupId' => $request->group,
+            'isChief' => $request->isChief ?? false
         ]);
 
         return redirect()->back()->with('success', 'La modification a été un succès!');
 
     }
-
     /**
      * Remove the specified resource from storage.
      *

@@ -29,6 +29,7 @@ Route::prefix('org')->group(function () {
         Route::post('changeOrganizationEmail',[settingsController::class,'changeOrganizationEmail'])->name('organizationEmail');
         Route::post('changeOrganizationProfile',[settingsController::class,'upload'])->name('organizationProfile');
     });
+    Route::post('existRestaurant',[RestaurantController::class,'existRestaurant']);
     route::resource('background',backgroundController::class);
     // Route::get('password_forgot',[AuthController::class,'password_forgot'])->name('password_forgot');
     // Route::post('sendLink',[AuthController::class,'sendLink']);

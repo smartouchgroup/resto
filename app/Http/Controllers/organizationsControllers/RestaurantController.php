@@ -11,9 +11,10 @@ use App\Models\Org_resto;
 use App\Models\Organization;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use App\Providers\RestaurantAdded;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -26,10 +27,9 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-
-        $restaurants = Restaurant::orderBy('id','Desc')->paginate(5);
-
-        return view('organization.restaurant.list',compact('restaurants'));
+        $backgrounds = Organization::all()->where('userId','=',Auth::user()->id);
+        $restaurants = Restaurant::orderBy('id', 'Desc')->paginate(5);
+        return view('organization.restaurant.list', compact('restaurants','backgrounds'));
     }
 
     /**
@@ -96,6 +96,15 @@ class RestaurantController extends Controller
         return back()->with('success', 'Restaurant ajouté avec succès!');
     }
 
+    public function existRestaurant(Request $request)
+    {
+        Org_resto::create([
+            'organization_id' => Auth::user()->custom->id,
+            'restaurant_id' => $request->restaurant_id
+        ]);
+        return back()->with('success', 'Restaurant ajouté avec succès!');
+    }
+
     public function changeStatus(Request $request)
     {
         $request->validate([
@@ -110,20 +119,15 @@ class RestaurantController extends Controller
     public function show($id)
     {
 
+        $backgrounds = Organization::all()->where('userId','=',Auth::user()->id);
         $restaurant = Restaurant::whereRelation('User', 'uuid', '=', $id)->first();
         $categories = Category::all();
         return view('organization.restaurant.show', [
             'restaurant' => $restaurant,
-            'categories' => $categories
+            'categories' => $categories,
+            'backgrounds' => $backgrounds
         ]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $restaurant = Restaurant::whereRelation('User', 'uuid', '=', $id)->first();
@@ -190,9 +194,8 @@ class RestaurantController extends Controller
 
     public function destroy($id)
     {
-        $restaurants = Restaurant::find($id);
-        $restaurants->delete();
-        return redirect()->back()->with('success', 'La structure a été retiré avec succes');
+        DB::delete('delete from org_restos where organization_id =  ? and restaurant_id = ?', [auth()->user()->custom->id, $id]);
+        return redirect()->back()->with('success', 'Le restaurant a été retiré avec succes');
     }
 
 
@@ -224,7 +227,4 @@ class RestaurantController extends Controller
         Dish::destroy($id);
         return redirect()->back()->with('dishSuccess', 'Le plat a été supprimé avec succès!');
     }
-
 }
-
-

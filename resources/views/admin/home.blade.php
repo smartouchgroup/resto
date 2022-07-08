@@ -25,9 +25,9 @@
 
                                 <button type="button" class="btn btn-primary">
                                         <a href="#" class="text-white">{{ $getAllAmount }} Fcfa</a>
+                                        
                                 </button>
-                                <img src="{{asset('dashboard/app-assets/images/illustration/badge.svg')}}"
-                                    class="congratulation-medal" alt="Medal Pic" />
+                                <img src="{{ asset('storage/avatars/' . Auth::user()->profile) }}" class="congratulation-medal me-75 mt-3" height="60" width="50" />
                             </div>
                         </div>
                     </div>

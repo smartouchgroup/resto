@@ -25,7 +25,7 @@ class RestaurantSeeder extends Seeder
             'phone_verified_at' => now(),
             'email' => 'laperle@gmail.com',
             'email_verified_at' => now(),
-            'profile' => 'avatar.png',
+            'profile' => 'avatar.jpg',
             'password' => Hash::make('laperle5502')
         ]);
 

@@ -104,28 +104,34 @@
                                 <thead>
                                     <tr>
                                         <th></th>
+                                    
                                         <th>Nom</th>
                                         <th>Prénom</th>
                                         <th>Email</th>
                                         <th>Téléphone</th>
-                                        <th>Status</th>
+                                        <th>Groupe</th>
+                                       
                                         <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($employees as $employee)
+                                   @if (Auth::user())
+                                   @foreach ($employees as $employee)
                                     <tr>
+                                        
                                         <td>
-                                            @if (stristr($employee->user->profile, 'avatar.png'))
-                                            <img src="{{ asset('storage/avatars/employee_avatar.png') }}" class="me-75"
-                                                height="40" width="40" alt="{{ $employee->user->firstname }}">
+                                            @if (($employee->user->profile == null))
+                                            <img src="{{ asset('assets/employee/avatar.png') }}" class="me-75"
+                                                height="40" width="45" alt="{{ $employee->user->firstname }}">
                                             @else
                                             <img src="{{ asset('storage/avatars/' . $employee->user->profile) }}"
-                                                class="me-75" height="40" width="40"
+                                                class="me-75" height="40" width="45"
                                                 alt="{{ $employee->user->firstname }}">
                                             @endif
                                         </td>
+                                        
+                                        
                                         <td>
                                             {{ $employee->user->firstname }}
                                         </td>
@@ -139,15 +145,9 @@
                                             {{ $employee->user->phone }}
                                         </td>
                                         <td>
-                                            <form action="{{ route('organization.changeStatus') }}" method="post">
-                                                <div class="form-check form-check-success form-switch">
-                                                    <input type="hidden" name="uuid" value="{{ $employee->user->uuid }}"
-                                                        required>
-                                                    <input type="checkbox" {{ $employee->user->status ? "checked" : null
-                                                    }} class="form-check-input statusInput">
-                                                </div>
-                                            </form>
+                                            {{ $employee->group->name }}
                                         </td>
+                                       
                                         <td class="d-flex">
                                             <a href="{{ route('add_employees.show', $employee->user->uuid) }}">
                                                 <button type="submit" class="dropdown-item d-flex align-items-center">
@@ -195,7 +195,7 @@
                                                             <form action="{{  route('add_employees.destroy', $employee->user->uuid) }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Supprimer</button>
+                                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Supprimer</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -204,6 +204,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                   @endif
                                 </tbody>
                             </table>
                         </div>
@@ -211,6 +212,18 @@
                 </div>
                 <div class="modal modal-slide-in fade show" id="modals-slide-in" aria-modal="true">
                     <div class="modal-dialog sidebar-sm">
+                        @if ($message = Session::get('success'))
+                        <div class="">
+                            <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-18 text-theme-9"> 
+                                <i data-feather="alert-triangle" class="w-6 h-6 mr-2 text-theme-9"></i> 
+                                <strong>{{$message }}</strong>
+                                <i data-feather="x" class="w-4 h-4 ml-auto"
+                                onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'
+                                id="close"></i> 
+                            </div>
+                        </div>
+                        
+                        @endif
                         <form action="{{route('add_employees.store')}}" method="post" enctype="multipart/form-data"
                             class="add-new-record modal-content pt-0">
                             @csrf
@@ -265,7 +278,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-1">
-                                    <label class="form-label" for="email">Adresse email</label>
+                                    <label class="form-label" for="email">Addresse email</label>
                                     <div class="input-group input-group-merge">
                                         <span class="input-group-text"><i data-feather="mail"></i></span>
                                         <input type="email" id="email" class="form-control" name="email"
@@ -353,6 +366,8 @@
                                     </div>
                                     @enderror
                                 </div>
+
+                               
 
                                 <div class="mb-1">
                                     <label class="form-label" for="group">Choisissez le groupe de l'employé</label>

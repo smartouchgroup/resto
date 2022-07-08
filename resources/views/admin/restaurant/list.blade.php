@@ -165,7 +165,7 @@
                                                     <span class="text-info">Editer</span>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('restaurants.destroy', $restaurant->user->uuid) }}" method="POST">
+                                            <form action="{{ route('restaurants.destroy', $restaurant->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="dropdown-item d-flex align-items-center">

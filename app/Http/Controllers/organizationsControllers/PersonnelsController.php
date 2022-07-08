@@ -29,7 +29,7 @@ class PersonnelsController extends Controller
         $groups = $organization->groups;
         $booleanArray = array_map(function ($employee) {
             return $employee->isChief;
-        },
+        }, 
         Collection::unwrap($employees));
         $employees = Employee::paginate(10)->fragment('employees');
         $chiefExist = in_array(1, $booleanArray);
@@ -39,6 +39,15 @@ class PersonnelsController extends Controller
             'chiefExist' => $chiefExist,
             'groups' => $groups
         ]);
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -56,6 +65,9 @@ class PersonnelsController extends Controller
             'email',
             'phone',
         ]);
+        $password = substr(str_shuffle(Hash::make(Str::random(10))) , 0, 15);
+
+        $inputs['password'] = Hash::make($password);
         $ajoutInput = [
             'roleId' => 5,
             'uuid' => Str::uuid(),
@@ -73,15 +85,24 @@ class PersonnelsController extends Controller
         };
         $employee = User::create($inputs);
         $organization = Organization::whereRelation('User', 'uuid', '=', $request->organizationId)->first();
-        Employee::create([
+        $addedEmployee = Employee::create([
             'userId' => $employee->id,
             'organizationId' => $organization->id,
             'groupId' => $request->group,
+            'identityCode' => (int) Random::generate(6, '1-9'),
             'isChief' => $request->isChief ?? false
+        ]);
+        event(new EmployeeAdded($addedEmployee, $password));
+        Account::create([
+            'employeeId' => $addedEmployee->id,
+            'amount' => 0
+        ]);
+        Ticket::create([
+            'employeeId' => $addedEmployee->id,
+            'ticketNumber' => 0
         ]);
         return redirect()->back()->with('success', 'Employé ajouté avec succes!');
     }
-
     public function changeStatus(Request $request)
     {
         $request->validate([
@@ -119,10 +140,10 @@ class PersonnelsController extends Controller
         $booleanArray = array_map(function ($employee) {
             return $employee->isChief;
         }, Collection::unwrap($employees));
-
         $chiefExist = in_array(1, $booleanArray);
         return view('organization.employee.edit', [
             'employee' => $employee,
+            
             'groups' => $groups,
             'chiefExist' => $chiefExist
         ]);
@@ -200,8 +221,9 @@ class PersonnelsController extends Controller
      */
     public function destroy($id)
     {
-        $employees = Employee::find($id);
-        $employees->delete();
+        $employee = Employee::whereRelation('User', 'uuid', '=', $id)->first();
+        Employee::destroy($employee->id);
+        User::destroy($employee->user->id);
         return redirect()->back()->with('success', 'L\'employé a été retiré avec succes');
     }
 }

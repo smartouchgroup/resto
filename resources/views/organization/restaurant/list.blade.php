@@ -11,8 +11,7 @@
     href="{{ asset('dashboard/app-assets/vendors/css/tables/datatable/buttons.bootstrap5.min.css') }}">
 <link rel="stylesheet" type="text/css"
     href="{{ asset('dashboard/app-assets/vendors/css/tables/datatable/rowGroup.bootstrap5.min.css') }}">
-<link rel="stylesheet" type="text/css"
-    href="{{ asset('dashboard/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/bootstrap-extended.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/colors.css') }}">
@@ -20,7 +19,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/themes/dark-layout.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/themes/bordered-layout.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/themes/semi-dark-layout.css') }}">
-@include('admin.components.horizontalBar')
+
 <div class="app-content content ">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -31,12 +30,25 @@
                     <div class="col-12">
                         <h2 class="content-header-title float-start mb-0">Restaurants</h2>
                         <div class="breadcrumb-wrapper">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Accueil</a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Liste des restaurants</a>
-                                </li>
-                            </ol>
+                         @foreach ($backgrounds as $background)
+                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{route('org.home')}}">
+                                <span
+                                @if ($background->background)
+                                style="color: {{ $background->background }} !important;"
+                                @endif">
+                                Accueil</span></a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">
+                                <span
+                                @if ($background->background)
+                                style="color: {{ $background->background }} !important;"
+                                @endif">
+                                Liste des restaurants</span>
+                            </a>
+                            </li>
+                        </ol>
+                         @endforeach
                         </div>
                     </div>
                 </div>
@@ -80,7 +92,44 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h4 class="card-title">Liste des restaurants</h4>
-                            <button class="dt-button create-new btn btn-primary" tabindex="0"
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong" @if ($background->background)
+                                style="background-color: {{ $background->background }} !important;"
+                                @endif>Ajout de Restaurant existant
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalLong" tabindex="-1" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Ajout de restaurant existant</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                               Liste de tous les restaurants
+                                            </p>
+                                           <form action="existRestaurant" method="post">
+                                            @csrf
+                                                <select name="restaurant_id" id="siteID"  style="width:100%" class=" form-select">
+                                                    <option value='0' selected='true'> Veuillez selectionner un restaurant</option>
+                                                    @foreach ($restaurants as $restaurant)
+                                                    <option value='{{ $restaurant->id }}'> {{$restaurant->user->firstname}} </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary data-submit me-1" data-bs-dismiss="modal" @if ($background->background)
+                                                        style="background-color: {{ $background->background }} !important;"
+                                                        @endif>Ajouter
+                                                    </button>
+                                                </div>
+                                           </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="dt-button create-new btn btn-primary"  @if ($background->background)
+                                style="background-color: {{ $background->background }} !important;"
+                                @endif tabindex="0"
                                 aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal"
                                 data-bs-target="#modals-slide-in"><span><svg xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -88,8 +137,7 @@
                                         class="feather feather-plus me-50 font-small-4">
                                         <line x1="12" y1="5" x2="12" y2="19"></line>
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>Ajouter un restaurant</span>
-                                </button>
+                                    </svg>Ajouter un restaurant</span></button>
                                 </div>
                             <div class="table-responsive">
                             <table class="table table-striped">
@@ -100,8 +148,8 @@
                                         <th>Email</th>
                                         <th>Téléphone</th>
                                         <th>Localisation</th>
-                                        <th>Status</th>
-                                        <th>Disponibilité</th>
+                                        <th>Slogan</th>
+                                        
                                         <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -133,17 +181,7 @@
                                             {{ $restaurant->localization }}
                                         </td>
                                         <td>
-                                            <form action="{{ route('restaurant.changeStatus') }}" method="post">
-                                                <div class="form-check form-check-success form-switch">
-                                                    <input type="hidden" name="uuid" value="{{ $restaurant->user->uuid }}" required>
-                                                    <input type="checkbox" {{ $restaurant->user->status ? "checked" : null }} class="form-check-input statusInput">
-                                                </div>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <div style="width: 25px; height: 25px;"
-                                                class="{{ $restaurant->availability ? 'bg-success' : 'bg-danger' }} rounded-circle mx-auto">
-                                            </div>
+                                            {{ $restaurant->slogan }}
                                         </td>
                                         <td class="d-flex">
                                             <a href="{{ route('org_restaurants.show', $restaurant->user->uuid) }}">
@@ -187,7 +225,7 @@
                                                             d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                                         </path>
                                                     </svg>
-                                                    <span class="text-danger">Supprimer</span>
+                                                    <span class="text-danger">Retirer</span>
                                                 </button>
                                             </form>
                                         </td>
@@ -203,15 +241,6 @@
                 <!-- Modal to add new record -->
                 <div class="modal modal-slide-in fade show" id="modals-slide-in" aria-modal="true">
                     <div class="modal-dialog sidebar-sm">
-                        @if ($message = Session::get('success'))
-                        <div class="">
-                            <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-18 text-theme-9"> <i
-                                    data-feather="alert-triangle" class="w-6 h-6 mr-2 text-theme-9"></i> <strong>{{
-                                    $message }}</strong><i data-feather="x" class="w-4 h-4 ml-auto"
-                                    onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'
-                                    id="close"></i> </div>
-                        </div>
-                        @endif
                         <form action="{{route('org_restaurants.store')}}" method="post" enctype="multipart/form-data"
                             class="add-new-record modal-content pt-0">
                             @csrf
@@ -380,7 +409,9 @@
                                             placeholder="Textarea"></textarea>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary data-submit me-1">Ajouter</button>
+                                    <button type="submit" class="btn btn-primary data-submit me-1" @if ($background->background)
+                                        style="background-color: {{ $background->background }} !important;"
+                                        @endif>Ajouter</button>
                                     <button type="reset" class="btn btn-outline-secondary"
                                         data-bs-dismiss="modal">Fermer</button>
                                 </div>
@@ -393,5 +424,12 @@
 </div>
 
 <script src="{{ asset('js/changeStatus.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+         $("select").select2();
+   });
+</script>
 
 @endsection
