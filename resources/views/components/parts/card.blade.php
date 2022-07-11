@@ -1,4 +1,4 @@
-<div class="col-6 col-md-4 col-lg-3 col-xl-2 my-1">
+<div class=" col-md-3 col-lg-3 col-xl-2 col-xs-12 my-1">
     <div class="card  p-0 mx-auto rounded">
         <div class="dish_img_container">
             @if (stristr('avatar.png', $dish->restaurant->user->profile))

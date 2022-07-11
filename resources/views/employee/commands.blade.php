@@ -13,7 +13,7 @@
 
 <x-parts.container type="container-fluid">
     <x-parts.main>
-        <div class="container mt-3 mx-auto">
+        <div class="container-fluid mt-3 mx-auto">
             <h2 class="dishes_title mb-2">Mes commandes</h2>
             @if ($message = Session::get('success'))
                 <div style="width: 98%;" class="mx-auto">
@@ -33,7 +33,7 @@
                 </div>
             @endif
             <div class="row mt-4">
-                <div class="col-12 col-xl-6">
+                <div class="col-lg-6 col-xl-6 col-md-6 col-xs-12">
                     <div class="part mt-2">
                         <h4 class="family_popone">Commandes actuelles</h4>
                       <div class="row justify-content-center mt-2">
@@ -64,7 +64,7 @@
                     {{ $getCommands->links() }}
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
+                <div class="col-lg-6 col-xl-6 col-md-6 col-xs-12">
                     <div class="part mt-2">
                         <h4 class="family_popone">Historiques des commandes</h4>
                         {{-- Commands --}}
@@ -79,7 +79,14 @@
                                             <h5 class="family_popone">{{ $Validate->dishes->name }}</h5>
                                         </div>
                                         <div>
-                                            <span class="small text-success">Votre commande a été validée</span>
+                                            <span class="small text-success">Commande validée</span>
+                                                <a href="{{ route('deleteCommand', $Validate->id) }}"
+                                                    class="dropdown-item d-flex align-items-center text-center text-danger">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill text-red" viewBox="0 0 16 16">
+                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                      </svg>
+                                                    <span class="text-danger">Supprimer</span>
+                                                </a>
                                         </div>
                                     </div>
                                 </div>

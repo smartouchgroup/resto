@@ -48,14 +48,14 @@ class SchedulesController extends Controller
          * Check for schedules nullability and assign empty array if null
          */
         $schedules = json_decode(auth()->user()->custom->schedules, true) ?? [];
-        
+
         $schedules[$request->day] = [
             'open' => $request->open,
             'close' => $request->close
         ];
 
         auth()->user()->custom->update(['schedules' => json_encode($schedules)]);
-        
+
         return redirect()->back()->with('success', "L'horaire a été ajouté avec succès !");
     }
 
@@ -108,8 +108,4 @@ class SchedulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
 }

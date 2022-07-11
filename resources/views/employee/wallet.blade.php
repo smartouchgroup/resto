@@ -3,12 +3,12 @@
 @section('content')
 <x-parts.container type="container-fluid">
     <x-parts.main>
-        <div class="container mt-3 mx-auto">
-            <h2 class="dishes_title mb-2">Mon portefeuille</h2>
+        <div class="container-fluid mt-3 mx-auto">
+            <h2 class="dishes_title mb-2 text-center">Mon portefeuille</h2>
             <div class="row mt-2">
-                <div class="col-12 col-xl-6">
-                    <div class="part mt-2">
-                        <h4 class="family_popone">Mon solde actuel</h4>
+                <div class="col-lg-6 col-md-6 col-xs-12 mx-auto ">
+                    <div class="part mt-1 card card-body">
+                        <h4 class="family_popone text-center">Mon solde actuel</h4>
                         @if($message = Session::get('success'))
                         <div style="width: 98%;" class="mx-auto">
                             <div class="alert alert-danger mt-1 alert-dismissible" role="alert">
@@ -20,16 +20,23 @@
                             </div>
                         </div>
                         @endif
-                        <div class="row justify-content-center mt-2">
+                        <div class="row justify-content-center  text-center">
                             <h1 class="family_popone py-4 display-1">{{ (Auth::user()->custom->account->amount )}} FCFA</h1>
+                        </div>
+                        <div class="form-group text-center my-2">
+                            <a href="{{ route('account.deposit') }}">
+                                <button type="submit" class="outline-none border-0 rounded">
+                                    Recharger
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
+                {{-- <div class="col-12 col-xl-6">
                     <div class="part mt-2">
                         <h4 class="family_popone">Historiques de mes dépôts</h4>
                         <div class="row justify-content-center mt-2">
-                            {{-- Deposits --}}
+
                             <div class="col-12 mt-1">
                                 <div class="rounded bg-white deposit_historic">
                                     <div class="dh_img">
@@ -113,7 +120,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <button id="smooth_scroll_btn" class="d-none">

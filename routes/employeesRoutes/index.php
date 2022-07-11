@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
     // Route::get('/forget_password', [AuthController::class, 'forget_password_index'])->name('forget_password');
     Route::middleware('auth.employee')->group(function () {
         Route::resource('/command', CommandController::class);
+        Route::get('destroy/{id}',[CommandController::class,'delete'])->name('deleteCommand');
         Route::resource('/account', AccountController::class);
         // Route::get('detailsRestaurant',[AccountController::class,'details_index'])->name('details.restaurants');
         Route::get('/wallet', [AccountController::class, 'wallet_index'])->name('account.wallet');

@@ -5,13 +5,13 @@
 @section('content')
     <x-parts.container type="container-fluid">
         <x-parts.main>
-            <div class="container mt-3 mx-auto">
+            <div class="container-fluid mt-3 mx-auto">
                 <h2 class="dishes_title mb-2">Restaurants {{ $restaurant->user->firstname }} </h2>
                 <div class="row mt-3">
 
                     {{-- Restaurants --}}
 
-                    <div class="col-3  my-1">
+                    <div class="col-lg-3 col-md-3 col-xs-12  my-1">
                         <div class="card">
                             <div class="restaurant___img">
                                 @if (stristr($restaurant->user->profile, 'avatar.png') || $restaurant->user->profile === null)
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="col-9  my-1">
+                    <div class="col-md-9 col-lg-9 col-xs-12  my-1">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class='dishes_title'>

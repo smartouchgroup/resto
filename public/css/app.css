@@ -32,14 +32,22 @@
     z-index: 1;
 }
 
-.loader_slide_up {animation: slide_up .5s ease-in .5s forwards;}
-
-@keyframes slide_up {
-    from {bottom: 0;}
-    to {bottom: 100vh;}
+.loader_slide_up {
+    animation: slide_up .5s ease-in .5s forwards;
 }
 
-.text-loader {color: #c5543d !important;}
+@keyframes slide_up {
+    from {
+        bottom: 0;
+    }
+    to {
+        bottom: 100vh;
+    }
+}
+
+.text-loader {
+    color: #c5543d !important;
+}
 
 #loader_img {
     width: 100px;
@@ -51,11 +59,17 @@
     height: 100%;
 }
 
-.family_popone {font-family: MochiyPopPOne;}
+.family_popone {
+    font-family: MochiyPopPOne;
+}
 
-* {font-family: regularRoboto;}
+* {
+    font-family: regularRoboto;
+}
 
-.dishes_title {font-family: MochiyPopPOne, sans-serif;}
+.dishes_title {
+    font-family: MochiyPopPOne, sans-serif;
+}
 
 .sidebar {
     height: 100%;
@@ -65,9 +79,13 @@
     border-bottom-right-radius: 30px;
 }
 
-.logo_container {border-bottom: .1px solid rgb(255, 190, 116);}
+.logo_container {
+    border-bottom: .1px solid rgb(255, 190, 116);
+}
 
-.vh-100 {height: 100vh;}
+.vh-100 {
+    height: 100vh;
+}
 
 #logo {
     width: 75px;
@@ -114,7 +132,6 @@
 
 .links ul li a:hover {
     background: rgba(255, 136, 0, 0.5);
-
 }
 
 .active {
@@ -138,7 +155,7 @@ header {
 }
 
 header form {
-    width:  50%;
+    width: 50%;
     font-size: 15px;
 }
 
@@ -147,7 +164,7 @@ header form {
     align-items: center;
 }
 
-#searchbar > svg {
+#searchbar>svg {
     position: relative;
     left: 35px;
 }
@@ -183,7 +200,7 @@ header form {
     border: .1px solid rgba(255, 136, 0, 0.5);
 }
 
-#searchbar #search:focus + select {
+#searchbar #search:focus+select {
     border: .1px solid rgba(255, 136, 0, 0.5);
     border-left: none !important;
 }
@@ -200,7 +217,8 @@ header form {
     border-radius: 25px;
     box-shadow: 0 0 0 2px #ddd;
 }
-#account .user{
+
+#account .user {
     margin-top: 10px;
 }
 
@@ -220,12 +238,16 @@ header form {
     height: 30px;
 }
 
-.tickets span {font-size: 19px;}
+.tickets span {
+    font-size: 19px;
+}
 
-.dishes_container {width: 90%;}
+.dishes_container {
+    width: 90%;
+}
 
 .card {
-    width:100%;
+    width: 100%;
     border: .1px solid #ddd;
     transition: all .25s;
 }
@@ -352,7 +374,9 @@ header form {
     padding: 10px;
 }
 
-.part h4 {margin-top: 10px;}
+.part h4 {
+    margin-top: 10px;
+}
 
 .command_historic {
     width: 100%;
@@ -370,7 +394,7 @@ header form {
     background-color: #f8f8f8 !important;
 }
 
-.command_historic > .command_img {
+.command_historic>.command_img {
     width: 75px;
     height: 75px;
 }
@@ -397,7 +421,8 @@ header form {
     border-bottom-left-radius: 5px;
 }
 
-.command_historic > .command_text, .deposit_historic > .dh_text {
+.command_historic>.command_text,
+.deposit_historic>.dh_text {
     text-indent: 15px;
 }
 
@@ -414,9 +439,13 @@ header form {
     height: 40px;
 }
 
-.form-group label {font-size: 19px;}
+.form-group label {
+    font-size: 19px;
+}
 
-.form-control {margin-top: 7px;}
+.form-control {
+    margin-top: 7px;
+}
 
 .form-group button[type="submit"] {
     padding: 10px 30px;
@@ -434,7 +463,9 @@ header form {
     box-shadow: none !important;
 }
 
-.account_user_container {padding: 15px;}
+.account_user_container {
+    padding: 15px;
+}
 
 .account_user {
     width: 100px;
@@ -448,11 +479,11 @@ header form {
 }
 
 .input-group .input-group-text {
- height: 100% !important;
- background-color: rgb(255, 190, 116);
- margin-top: 7px;
- padding-top: 12px !important;
- padding-bottom: 12px !important;
+    height: 100% !important;
+    background-color: rgb(255, 190, 116);
+    margin-top: 7px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
 }
 
 .input-group-text svg {
@@ -467,16 +498,13 @@ header form {
         top: 0;
         left: 0;
     }
-
     .main {
         width: calc(100% - 100px);
         margin-left: 100px;
     }
-
     .links ul li:last-of-type {
         margin-top: 20vh;
     }
-
 }
 
 @media (min-width: 1200px) and (max-width: 1580px) {
@@ -505,30 +533,32 @@ header form {
 }
 
 @media (max-width: 1024px) {
-    header form {width: 70%;}
+    header form {
+        width: 70%;
+    }
     #logo {
         width: 60px;
         height: 60px;
     }
-
     .links ul {
         width: 100%;
     }
-
     .links ul li a {
         padding: 15px 10px;
     }
-
     .links ul li a svg {
         width: 25px;
         height: 25px;
     }
-
-    #account {width: 20%;}
-
-    .dishes_container {width: 100% !important;}
-
-    .card {width: 100% !important;}
+    #account {
+        width: 20%;
+    }
+    .dishes_container {
+        width: 100% !important;
+    }
+    .card {
+        width: 100% !important;
+    }
 }
 
 @media (max-width: 992px) {
@@ -540,8 +570,9 @@ header form {
         width: 50px;
         height: 50px;
     }
-
-    #sidebar {width: 98%;}
+    #sidebar {
+        width: 98%;
+    }
 }
 
 @media (max-width: 850px) {
@@ -549,21 +580,27 @@ header form {
         width: fit-content!important;
         margin-left: -10px !important;
     }
-
-    .links ul li  a {padding: 13.5px 10px;}
-
-    #account {width: 25%;}
+    .links ul li a {
+        padding: 13.5px 10px;
+    }
+    #account {
+        width: 25%;
+    }
 }
 
 @media (max-width: 767px) {
     header form {
-        width:  85%;
+        width: 85%;
     }
-
-    #sidebar {width: 98%;}
-
-    #searchbar #search {width: 70%;}
-    #searchbar select {width: 30%;}
+    #sidebar {
+        width: 98%;
+    }
+    #searchbar #search {
+        width: 70%;
+    }
+    #searchbar select {
+        width: 30%;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -578,6 +615,7 @@ header form {
     background-color: #ddd;
     border-radius: 4px;
 }
+
 .command_card {
     border: .1px solid #eee;
 }

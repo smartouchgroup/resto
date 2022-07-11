@@ -18,11 +18,10 @@ class CommandController extends Controller
     public function index()
     {
         $getUserConnected = Auth::user()->id;
-        $getCommands = Command::where('userId',$getUserConnected)->where('done', false)->orderBy('created_at','DESC')->paginate(3);
-        $getCommandValidate = Command::where('userId',$getUserConnected)->where('done', true)->paginate(3);
+        $getCommands = Command::where('userId', $getUserConnected)->where('done', false)->orderBy('created_at', 'DESC')->paginate(3);
+        $getCommandValidate = Command::where('userId', $getUserConnected)->where('done', true)->paginate(3);
         return view('employee.commands', compact('getCommands', 'getCommandValidate'));
     }
-
 
 
     /**
@@ -41,16 +40,21 @@ class CommandController extends Controller
         } elseif (Auth::user()->custom->account->amount === 0) {
             return back()->with('warning', 'Veuillez recharger votre compte');
         } else {
-           Command::create([
+            Command::create([
                 'employeeId' => $request->employeeId,
                 'dishId' => $request->dishId,
                 'restaurantId' => $request->restaurantId,
                 'userId' => $request->userId,
                 'done' => false
             ]);
-
             return redirect()->intended('command')->with('success', 'Votre commande a été effectuée avec succés et est en cours de validation.Merci');
         }
     }
 
+    public function delete($id)
+    {
+        $Validate = Command::find($id);
+        $Validate->delete();
+        return back()->with('success', 'suppression a été effectué avec succés');
+    }
 }

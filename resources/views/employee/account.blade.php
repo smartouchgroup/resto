@@ -5,10 +5,10 @@
 @section('content')
     <x-parts.container type="container-fluid">
         <x-parts.main>
-            <div class="container mt-3 mx-auto">
+            <div class="container-fluid mt-3 mx-auto">
                 <h2 class="dishes_title mb-2">Mes informations</h2>
                 <div class="row mt-2">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 col-xs-6">
                         <div
                             class="w-100 bg-white rounded-top d-flex justify-content-between align-items-center account_user_container">
                             <div class="account_user rounded-circle">

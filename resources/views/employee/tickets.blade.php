@@ -3,11 +3,11 @@
 @section('content')
 <x-parts.container type="container-fluid">
     <x-parts.main>
-        <div class="container mt-3 mx-auto">
+        <div class="container-fluid mt-3 mx-auto">
             <h2 class="dishes_title mb-2">Faire un dépot </h2>
             <div class="row mt-2">
                 @if ($numberTicketsAuthorized != 0)
-                <div class="col-12 col-xl-6">
+                <div class="col-lg-6 col-md-6  col-xs-12">
                     <div class="part mt-2">
                         <div class="py-2 border-bottom d-flex align-items-center">
                             <h1 class="family_popone">Total de mes tickets: {{ $getNumberTickets }}</h1>
@@ -86,7 +86,7 @@
                     </div>
                 @endif
                 </div>
-                <div class="col-12 col-xl-6">
+                <div class="col-lg-6 col-md-6 col-xs-12">
                     <div class="part mt-2">
                         <h4 class="family_popone">Historiques d'achat de tickets </h4>
                         <div class="row justify-content-center mt-2">
