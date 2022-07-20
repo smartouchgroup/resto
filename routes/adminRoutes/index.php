@@ -3,8 +3,8 @@ namespace App\Http\Controllers\adminControllers;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function() {
+    // Route::resource('login', AuthController::class);
     Route::get('/', [AuthController::class, 'home'])->name('admin.home');
-    Route::resource('login', AuthController::class);
     Route::get('login', [AuthController::class, 'index'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login');
     Route::middleware('auth.admin')->group(function () {
@@ -30,5 +30,17 @@ Route::prefix('admin')->group(function() {
         Route::post('/restaurant/updateDish', [RestaurantController::class, 'updateDish'])->name('restaurant.updateDish');
         Route::get('/restaurant/deleteDish/{id}', [RestaurantController::class, 'deleteDish'])->name('restaurant.deleteDish');
         Route::post('/restaurant/addDish', [RestaurantController::class, 'addDish'])->name('restaurant.addDish');
+        // Gestion d'administrateur
+        Route::get('manage',[ManagerAdminController::class,'index'])->name('manage.index');
+        Route::post('addManager',[ManagerAdminController::class,'addManager'])->name('addManager');
+        Route::get('activate/{id}', [ManagerAdminController::class, 'activate'])->name('activate');
+        Route::get('desactivate/{id}', [ManagerAdminController::class, 'desactivate'])->name('desactivate');
+        Route::get('removeManager/{id}',[ManagerAdminController::class,'removeManager'])->name('removeManager');
+
+        Route::post('changeAdminName',[AuthController::class,'changeAdminName'])->name('adminName');
+        Route::post('changeAdminPhone',[AuthController::class,'changeAdminPhone'])->name('adminPhone');
+        Route::post('changeAdminEmail',[AuthController::class,'changeAdminEmail'])->name('adminEmail');
+        Route::post('changePassword',[AuthController::class,'changePassword'])->name('adminPassword');
+        Route::post('adminData',[AuthController::class,'changeData'])->name('adminData');
     });
 });

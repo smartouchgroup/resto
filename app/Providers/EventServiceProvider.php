@@ -19,6 +19,7 @@ class EventServiceProvider extends ServiceProvider
         EmailChanged::class => [SendEmployeeNewEmailMail::class],
         RestaurantAdded::class => [SendRestaurantCredential::class],
         OrganizationAdded::class => [SendOrganizationCredential::class],
+        ManagerAdded::class => [SendManagerCredential::class],
     ];
 
     /**

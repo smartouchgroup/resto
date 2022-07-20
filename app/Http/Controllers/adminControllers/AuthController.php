@@ -11,6 +11,7 @@ use App\Models\Restaurant;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -47,7 +48,7 @@ class AuthController extends Controller
     }
 
     public function profile(){
-        return view('admin.profile');
+        return view('admin.profile.index');
     }
     public function logout(Request $request)
     {
@@ -59,4 +60,67 @@ class AuthController extends Controller
 
         return redirect()->route('admin.login');
     }
+
+    public function changeAdminName (Request $request)
+    {
+        $request->validate([
+            'firstname' => 'required'
+        ]);
+
+        Auth::user()->update([
+            'firstname' => $request->firstname,
+        ]);
+        return back()->with('success', 'Information changé avec succes');
+    }
+
+    public function changeAdminPhone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required'
+        ]);
+
+        Auth::user()->update([
+            'phone' => $request->phone,
+        ]);
+        return back()->with('success', 'Numéro changé avec succes');
+    }
+
+    public function changeAdminEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        Auth::user()->update([
+            'email' => $request->email,
+        ]);
+        return back()->with('success', 'Email changé avec succes');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'string|required',
+            'confirm_password' => 'string|required|same:password'
+        ]);
+        Auth::user()->update([
+            'password' => Hash::make($request->password),
+            'updated_at' => auth()->user()->updated_at
+        ]);
+        return back()->with('success', 'Mot de passe  changé avec succes Vos pouvez désormais vous connecter avec votre nouveau mot de passe');
+    }
+
+    public function changeData(Request $request)
+    {
+        $request->validate([
+            'firstname' => 'string|required',
+            'lastname' => 'string|required|'
+        ]);
+        Auth::user()->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname
+        ]);
+        return back()->with('success', 'Mot de passe  changé avec succes Vos pouvez désormais vous connecter avec votre nouveau mot de passe');
+    }
 }
+

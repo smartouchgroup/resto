@@ -28,7 +28,6 @@
                             </svg></span>
                         <h2 class="brand-text mb-0">Vuexy</h2>
                     </a></li>
-                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i></a></li>
             </ul>
         </div>
         <div class="shadow-bottom"></div>
@@ -40,14 +39,18 @@
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/role') }}"><i data-feather="package"></i><span data-i18n="Apps">Configuration Rôle</span></a>
                 </li>
-                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/adminTickets') }}" ><i data-feather="layers"></i><span data-i18n="User Interface">Configuration Ticket</span></a>
+                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/adminTickets') }}" ><i data-feather="credit-card"></i><span data-i18n="User Interface">Configuration Ticket</span></a>
                 </li>
                 <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/organization') }}" ><i data-feather="layers"></i><span data-i18n="User Interface">Structures</span></a>
                 </li>
-                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/restaurants') }}" ><i data-feather="edit"></i><span data-i18n="User Interface">Restaurants</span></a>
+                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/restaurants') }}" ><i data-feather="coffee"></i><span data-i18n="User Interface">Restaurants</span></a>
                 </li>
-                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/org_employees') }}" ><i data-feather="edit"></i><span data-i18n="User Interface">Personnels</span></a>
+                <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ asset('admin/org_employees') }}" ><i data-feather="user"></i><span data-i18n="User Interface">Personnels</span></a>
                 </li>
+               @if (Auth::user()->roleId == 1)
+               <li class="dropdown nav-item" data-menu="dropdown"><a class=" nav-link d-flex align-items-center" href="{{ route('manage.index') }}" ><i data-feather="users"></i><span data-i18n="User Interface">Gestion d'administrateur</span></a>
+               </li>
+               @endif
             </ul>
         </div>
     </div>
