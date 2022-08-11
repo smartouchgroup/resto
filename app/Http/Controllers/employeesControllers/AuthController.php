@@ -24,15 +24,6 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        // if (Auth::attempt($credentials) && Auth::user()->roleId === 5 && Auth::user()->custom->first_login == 0) {
-        //     $request->session()->regenerate();
-
-        //     return redirect()->intended('/');
-        // } else
-
-        //     return redirect()->back()->withErrors([
-        //         'errors' => 'Vos identifiants sont incorrects',
-        //     ]);
         if (!Auth::attempt($credentials) ) {
             return redirect()->back()->withErrors([
                 'errors' => 'Vos identifiants sont incorrects',
